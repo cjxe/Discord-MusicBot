@@ -3,24 +3,24 @@ const sendError = require("../util/error")
 
 module.exports = {
   info: {
-    name: "nowplaying",
-    description: "To show the music which is currently playing in this server",
+    name: "şimdiçalan",
+    description: "Şimdi çalanı göstermek için",
     usage: "",
-    aliases: ["np"],
+    aliases: ["şç","sc","çalan","calan","simdicalan","şimdi-çalan","simdi-calan","nowplaying","np","şimdiçalan"],
   },
 
   run: async function (client, message, args) {
     const serverQueue = message.client.queue.get(message.guild.id);
-    if (!serverQueue) return sendError("There is nothing playing in this server.", message.channel);
+    if (!serverQueue) return sendError("Şu anda boştayım.", message.channel);
     let song = serverQueue.songs[0]
     let thing = new MessageEmbed()
-      .setAuthor("Now Playing", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
+      .setAuthor("Şimdi çalan", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
       .setThumbnail(song.img)
       .setColor("BLUE")
-      .addField("Name", song.title, true)
-      .addField("Duration", song.duration, true)
-      .addField("Requested by", song.req.tag, true)
-      .setFooter(`Views: ${song.views} | ${song.ago}`)
+      .addField("Ad", song.title, true)
+      .addField("Süre", song.duration, true)
+      .addField("Talep eden", song.req.tag, true)
+      .setFooter(`Görüntülenme: ${song.views} | ${song.ago}`)
     return message.channel.send(thing)
   },
 };

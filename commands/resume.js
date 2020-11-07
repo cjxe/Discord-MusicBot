@@ -3,10 +3,10 @@ const sendError = require("../util/error");
 
 module.exports = {
   info: {
-    name: "resume",
-    description: "To resume the paused music",
+    name: "devam",
+    description: "Durdurulan şarkıyı devam ettirmek için",
     usage: "",
-    aliases: [],
+    aliases: ["de","devamke","resume","devam"],
   },
 
   run: async function (client, message, args) {
@@ -15,11 +15,11 @@ module.exports = {
       serverQueue.playing = true;
       serverQueue.connection.dispatcher.resume();
       let xd = new MessageEmbed()
-      .setDescription("▶ Resumed the music for you!")
-      .setColor("YELLOW")
-      .setAuthor("Music has been Resumed!", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
+      .setDescription("▶ DURMAK YOK!")
+      .setColor("GREEN")
+      .setAuthor("Şarkıya devam!", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
       return message.channel.send(xd);
     }
-    return sendError("There is nothing playing in this server.", message.channel);
+    return sendError("Şu anda boştayım.", message.channel);
   },
 };

@@ -3,19 +3,19 @@ const sendError = require("../util/error");
 
 module.exports = {
   info: {
-    name: "stop",
-    description: "To stop the music and clearing the queue",
+    name: "dur",
+    description: "Müziği durdurup sırayı temizlemek için",
     usage: "",
-    aliases: [],
+    aliases: ["du","durdur","dur-lan","kes","dur"],
   },
 
   run: async function (client, message, args) {
     const channel = message.member.voice.channel
-    if (!channel)return sendError("I'm sorry but you need to be in a voice channel to play music!", message.channel);
+    if (!channel)return sendError("Şarkı söyleyebilmem için odaya katılman gerekiyor!", message.channel);
     const serverQueue = message.client.queue.get(message.guild.id);
-    if (!serverQueue)return sendError("There is nothing playing that I could stop for you.", message.channel);
+    if (!serverQueue)return sendError("Çalan hiçbir şey yokki durdurayım gerizekalı...", message.channel);
     serverQueue.songs = [];
-    serverQueue.connection.dispatcher.end("Stop the music");
+    serverQueue.connection.dispatcher.end("Şarkıyı durdur");
     message.react("✅")
   },
 };

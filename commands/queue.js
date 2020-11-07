@@ -3,28 +3,28 @@ const sendError = require("../util/error");
 
 module.exports = {
   info: {
-    name: "queue",
-    description: "To show the server songs queue",
+    name: "sıra",
+    description: "Sıradaki şarkıları göstermek için",
     usage: "",
-    aliases: ["q", "list", "songlist", "song-list"],
+    aliases: ["sı","si","sira","sırada","sirada","sıradaki","siradaki","liste", "q","queue", "songlist","sıra"],
   },
 
   run: async function (client, message, args) {
     const serverQueue = message.client.queue.get(message.guild.id);
-    if (!serverQueue) return sendError("There is nothing playing in this server.", message.channel);
+    if (!serverQueue) return sendError("Şu anda boştayım.", message.channel);
 
     let queue = new MessageEmbed()
-    .setAuthor("Server Songs Queue", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
+    .setAuthor("Sıradaki şarkılar", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
     .setColor("BLUE")
-    .addField("Now Playing", serverQueue.songs[0].title, true)
-    .addField("Text Channel", serverQueue.textChannel, true)
-    .addField("Voice Channel", serverQueue.voiceChannel, true)
+    .addField("Şimdi çalan", serverQueue.songs[0].title, true)
+    .addField("Metin kanalı", serverQueue.textChannel, true)
+    .addField("Ses kanalı", serverQueue.voiceChannel, true)
     .setDescription(serverQueue.songs.map((song) => {
       if(song === serverQueue.songs[0])return
       return `**-** ${song.title}`
     }).join("\n"))
-    .setFooter("Currently Server Volume is "+serverQueue.volume)
-    if(serverQueue.songs.length === 1)queue.setDescription(`No songs to play next add songs by \`\`${client.config.prefix}play <song_name>\`\``)
+    .setFooter("Sunucu ses düzeyi "+serverQueue.volume)
+    if(serverQueue.songs.length === 1)queue.setDescription(`Sırada istek parça yok, eklemek için \`\`${client.config.prefix}çal <şarkı_adı>\`\``)
     message.channel.send(queue)
   },
 };
