@@ -14,6 +14,6 @@ module.exports = {
     const serverQueue = message.client.queue.get(message.guild.id);
     if (!serverQueue)return sendError("Nasıl yanı, olmayan istek parçayı nasıl atlıyayım?", message.channel);
     serverQueue.connection.dispatcher.end("Şarkıyı atladım, zaten bok gibiydi...");
-    message.react("✅")
+    message.react("👌")
   },
 };

@@ -6,7 +6,7 @@ module.exports = {
     name: "şimdiçalan",
     description: "Şimdi çalanı göstermek için",
     usage: "",
-    aliases: ["şç","sc","çalan","calan","simdicalan","şimdi-çalan","simdi-calan","nowplaying","np","şimdiçalan"],
+    aliases: ["şç","sc","çalan","calan","simdicalan","şimdi-çalan","simdi-calan","simdi-calan","oynayan","np","şimdiçalan"],
   },
 
   run: async function (client, message, args) {

@@ -14,12 +14,14 @@ module.exports = {
     if (serverQueue && serverQueue.playing) {
       serverQueue.playing = false;
       serverQueue.connection.dispatcher.pause();
-      let xd = new MessageEmbed()
-      .setDescription("⏸ Öhm, bölüyorum ama!..")
-      .setColor("YELLOW")
-      .setAuthor("Müzik durduruldu!", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
-      return message.channel.send(xd);
+      //let xd = new MessageEmbed()
+      //.setDescription("⏸ Öhm, bölüyorum ama!..")
+      //.setColor("YELLOW")
+      //.setAuthor("Müzik durduruldu!", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
+      message.react("⏸");
+      //return message.channel.send(xd);
+    } else {
+      return sendError("Şu anda boştayım.", message.channel);
     }
-    return sendError("Şu anda boştayım.", message.channel);
   },
 };

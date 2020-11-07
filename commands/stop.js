@@ -16,6 +16,6 @@ module.exports = {
     if (!serverQueue)return sendError("Çalan hiçbir şey yokki durdurayım gerizekalı...", message.channel);
     serverQueue.songs = [];
     serverQueue.connection.dispatcher.end("Şarkıyı durdur");
-    message.react("✅")
+    message.react("🛑")
   },
 };

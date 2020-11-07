@@ -4,8 +4,8 @@ const sendError = require("../util/error");
 module.exports = {
   info: {
     name: "sesdüzeyi",
-    description: "To change the server song queue volume",
-    usage: "[volume]",
+    description: "Ses ddüzeyini ayarlamak içın",
+    usage: "[ses_düzeyi]",
     aliases: ["sd","ses","sesdüzeyi","ses-düzeyi","ses-duzeyi","v", "vol","sesdüzeyi"],
   },
 

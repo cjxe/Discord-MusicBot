@@ -7,7 +7,7 @@ module.exports = {
   info: {
     name: "söyle",
     description: "Şarkı çalmak için",
-    usage: "<şarkı_adı>",
+    usage: "[şarkı_adı]",
     aliases: ["sö","soyle","so","çal","ç","cal","c","p","söyle"],
   },
 
@@ -67,7 +67,7 @@ module.exports = {
       const queue = message.client.queue.get(message.guild.id);
       if (!song) {
         sendError("Müzik bitti, ben kaçar!", message.channel)
-        queue.voiceChannel.leave();//If you want your bot stay in vc 24/7 remove this line :D
+        //queue.voiceChannel.leave();//If you want your bot stay in vc 24/7 remove this line :D
         message.client.queue.delete(message.guild.id);
         return;
       }
