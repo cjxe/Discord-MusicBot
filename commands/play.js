@@ -8,7 +8,7 @@ module.exports = {
     name: "söyle",
     description: "Şarkı çalmak için",
     usage: "[şarkı_adı]",
-    aliases: ["sö","soyle","so","çal","ç","cal","c","p","söyle"],
+    aliases: ["sö","soyle","so","oynat","çal","ç","cal","c","p","söyle"],
   },
 
   run: async function (client, message, args) {
@@ -22,19 +22,41 @@ module.exports = {
     var searchString = args.join(" ");
     if (!searchString)return sendError("Ne yani, boş mu yapiyim?", message.channel);
 
+
+    
+
+    //problem: determine whether user enters a search string OR a url
+    //solution 1: get the part after  /(https?:\/\/(?:www\.)?youtu(?:be\.com|\.be)\/[^\s]+)  , the id,   const searched = await yts( { videoId: '_4Vt0UGwmgQ' } )
+    const regex = /(https?:\/\/(?:www\.)?youtu(?:be\.com|\.be)\/[^\s]+)/ui
+    ///const id = url.searchParams.get('id') ?? url.pathname
+    //https://javascript.info/regexp-introduction
+    const match = searchString.match(regex)
+    if(match) {
+      //var searched = ytdl(searchString);
+      const videoId = ytdl.getURLVideoID(searchString)
+      var songInfo = await yts( { videoId: {videoId} } )
+      //if(searched.length === 0)return sendError("Dalga mı geçiyorsun? Böyle bir şarkı yok.", message.channel)
+      //var songInfo = searched;
+    } else { // if it is a search string (and not a url)   
+      var searched = await yts.search(searchString)
+      if(searched.videos.length === 0)return sendError("Dalga mı geçiyorsun? Böyle bir şarkı yok.", message.channel)
+      
+      var songInfo = searched.videos[0]
+      const id = songInfo.videoId
+    }
+ 
+    // https://github.com/fent/node-ytdl-core
+
     var serverQueue = message.client.queue.get(message.guild.id);
 
-    var searched = await yts.search(searchString)
-    if(searched.videos.length === 0)return sendError("Dalga mı geçiyorsun? Böyle bir şarkı yok.", message.channel)
-    var songInfo = searched.videos[0]
 
     const song = {
-      id: songInfo.videoId,
+      //id: songInfo.videoId,
       title: Util.escapeMarkdown(songInfo.title),
       views: String(songInfo.views).padStart(10, ' '),
       url: songInfo.url,
       ago: songInfo.ago,
-      duration: songInfo.duration.toString(),
+      duration: songInfo.duration.toString(), // ${ song.duration.timestamp }
       img: songInfo.image,
       req: message.author
     };
@@ -67,13 +89,14 @@ module.exports = {
       const queue = message.client.queue.get(message.guild.id);
       if (!song) {
         sendError("Müzik bitti, ben kaçar!", message.channel)
-        //queue.voiceChannel.leave();//If you want your bot stay in vc 24/7 remove this line :D
+        queue.voiceChannel.leave(); // If you want your bot stay in vc 24/7 remove this line :D
         message.client.queue.delete(message.guild.id);
         return;
       }
-
+      // if str.includes("https://youtu") || str.includes("http://youtu") || str.includes("youtube.com/watch?v=")
+      // if str.includes("https://youtu" || "http://youtu" || "youtube.com/watch?v=")
       const dispatcher = queue.connection
-        .play(ytdl(song.url))
+        .play(ytdl(song.url, {filter: "audioonly"} ))
         .on("finish", () => {
           queue.songs.shift();
           play(queue.songs[0]);
